@@ -94,7 +94,8 @@ namespace LibraryHandling.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddAuthor(AddAuthorDto model, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid)
+                return View(model);
 
             var result = await _adminService.AddAuthor(model, cancellationToken);
             if (!result.IsSuccess)
@@ -105,6 +106,7 @@ namespace LibraryHandling.Controllers
 
             return RedirectToAction("Authors");
         }
+
 
         [HttpGet]
         public async Task<IActionResult> EditAuthor(Guid id, CancellationToken cancellationToken)

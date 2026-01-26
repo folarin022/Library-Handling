@@ -2,46 +2,339 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>@ViewData["Title"] - Admin</title>
+    <title>@ViewData["Title"] - Library Admin</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet" />
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Simple Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <style>
+        /* Simple, colorful styles */
+        body {
+            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Colorful sidebar */
+        .sidebar {
+            background: linear-gradient(to bottom, #4e54c8, #8f94fb);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+
+            .sidebar h3 {
+                color: white;
+                padding-bottom: 15px;
+                border-bottom: 2px solid rgba(255,255,255,0.2);
+            }
+
+        .menu-item {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+            .menu-item:hover {
+                background-color: rgba(255,255,255,0.2);
+                transform: translateX(5px);
+            }
+
+            .menu-item.active {
+                background-color: white;
+                color: #4e54c8;
+                font-weight: bold;
+            }
+
+        .menu-icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* Main content area */
+        .main-content {
+            padding: 25px;
+            background-color: #f8f9fa;
+        }
+
+        /* Header card */
+        .header-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+        }
+
+        /* Simple cards */
+        .fun-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border-left: 5px solid;
+            transition: transform 0.3s;
+        }
+
+            .fun-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }
+
+        /* Different border colors */
+        .card-blue {
+            border-color: #4e54c8;
+        }
+
+        .card-green {
+            border-color: #2ecc71;
+        }
+
+        .card-yellow {
+            border-color: #f39c12;
+        }
+
+        .card-red {
+            border-color: #e74c3c;
+        }
+
+        /* Stats circles */
+        .stat-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            margin: 0 auto 15px;
+        }
+
+        .stat-blue {
+            background-color: #4e54c8;
+        }
+
+        .stat-green {
+            background-color: #2ecc71;
+        }
+
+        .stat-yellow {
+            background-color: #f39c12;
+        }
+
+        .stat-red {
+            background-color: #e74c3c;
+        }
+
+        /* User info */
+        .user-box {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #4e54c8;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 auto 10px;
+        }
+
+        /* Simple buttons */
+        .btn-cool {
+            background: linear-gradient(to right, #4e54c8, #8f94fb);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+            .btn-cool:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(78, 84, 200, 0.4);
+                color: white;
+            }
+
+        /* Mobile friendly */
+        @@media (max-width: 768px) {
+            .sidebar
+
+        {
+            min-height: auto;
+            margin-bottom: 20px;
+        }
+
+        .main-content {
+            padding: 15px;
+        }
+
+        }
+    </style>
 </head>
 <body>
-
     <div class="container-fluid">
-        <div class="row min-vh-100">
-
+        <div class="row">
             <!-- Sidebar -->
-            <nav class="col-md-3 col-lg-2 bg-dark text-white p-3">
-                <h5 class="text-white">Admin Panel</h5>
-                <ul class="nav flex-column mt-4">
-                    <li class="nav-item">
-                        <a class="nav-link text-white" asp-controller="Admin" asp-action="Authors">
-                            Authors
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" asp-controller="Admin" asp-action="Borrowings">
-                            Borrowings
-                        </a>
-                    </li>
-                    <li class="nav-item mt-3">
-                        <form asp-action="Logout" method="post">
-                            <button class="btn btn-danger w-100">Logout</button>
-                        </form>
-                    </li>
-                </ul>
-            </nav>
+            <div class="col-lg-3 col-md-4 sidebar">
+                <h3><i class="bi bi-book-half"></i> Library Admin</h3>
 
-            <!-- Main content -->
-            <main class="col-md-9 col-lg-10 p-4">
-                @RenderBody()
-            </main>
+                <div class="mt-4">
+                    <a href="#" class="menu-item active">
+                        <i class="bi bi-speedometer2 menu-icon"></i> Dashboard
+                    </a>
 
+                    <a asp-controller="Admin" asp-action="Authors" class="menu-item">
+                        <i class="bi bi-person-badge menu-icon"></i> Authors
+                    </a>
+
+                    <a href="#" class="menu-item">
+                        <i class="bi bi-book menu-icon"></i> Books
+                    </a>
+
+                    <a asp-controller="Admin" asp-action="Borrowings" class="menu-item">
+                        <i class="bi bi-arrow-left-right menu-icon"></i> Borrowings
+                    </a>
+
+                    <a href="#" class="menu-item">
+                        <i class="bi bi-people menu-icon"></i> Members
+                    </a>
+                </div>
+
+                <!-- User Info -->
+                <div class="user-box">
+                    <div class="user-avatar">AD</div>
+                    <h6 class="mb-1">Admin User</h6>
+                    <p class="text-muted small mb-2">Library Administrator</p>
+
+                    <form asp-action="Logout" method="post" class="mt-3">
+                        <button class="btn btn-sm btn-danger w-100">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-9 col-md-8 main-content">
+                <!-- Header -->
+                <div class="header-card">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h2 class="mb-2">Welcome back, Admin! 👋</h2>
+                            <p class="text-muted mb-0">Here's what's happening in your library today.</p>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <div class="d-inline-block bg-light rounded-pill p-2">
+                                <span class="px-2">
+                                    <i class="bi bi-calendar-check text-primary"></i>
+                                    @DateTime.Now.ToString("dddd, MMMM dd")
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content Area -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="header-card">
+
+                            <!-- This is where your page content goes -->
+                            @RenderBody()
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="text-center text-muted small p-3">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Simple JavaScript for learning -->
+    <script>
+        // Simple menu active state
+        const menuItems = document.querySelectorAll('.menu-item');
+        menuItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                menuItems.forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Simple card click effect
+        const funCards = document.querySelectorAll('.fun-card');
+        funCards.forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+            });
+        });
+
+        // Current date in header
+        function updateDateTime() {
+            const now = new Date();
+            const dateElement = document.querySelector('.date-time');
+            if (dateElement) {
+                dateElement.textContent = now.toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            }
+        }
+
+        // Update time every minute
+        updateDateTime();
+        setInterval(updateDateTime, 60000);
+
+        // Simple alert for logout
+        const logoutForm = document.querySelector('form[action*="Logout"]');
+        if (logoutForm) {
+            logoutForm.addEventListener('submit', function(e) {
+                if (!confirm('Are you sure you want to logout?')) {
+                    e.preventDefault();
+                }
+            });
+        }
+
+        // Welcome message in console
+        console.log('Welcome to the Library Admin Dashboard! 🎉');
+        console.log('This is a beginner-friendly Bootstrap template.');
+        console.log('Try clicking on the colored cards!');
+    </script>
+
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

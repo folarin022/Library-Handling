@@ -35,7 +35,7 @@ namespace LibraryHandling.Service
             {
                 var author = new Author
                 {
-                    Id = request.Id == Guid.Empty ? Guid.NewGuid() : request.Id,
+                    Id = new Guid(),
                     Name = request.Name,
                     Bio = request.Bio,
                     DOB = request.DOB,

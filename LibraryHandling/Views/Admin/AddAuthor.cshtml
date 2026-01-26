@@ -2,35 +2,77 @@
 
 @{
     ViewData["Title"] = "Add Author";
+    Layout = "_LayoutAdmin";
 }
 
-<h2>Add Author</h2>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg rounded-4 border-0">
+                <div class="card-header bg-gradient-primary text-white text-center py-3">
+                    <h3 class="mb-0"><i class="fas fa-user-plus me-2"></i>Add Author</h3>
+                    <p class="mb-0 small opacity-75">Fill out the details to add a new author</p>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="AddAuthor" method="post" novalidate>
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label fw-bold"></label>
+                            <input asp-for="Name" class="form-control form-control-lg" placeholder="Enter author's full name" />
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
 
-<form asp-action="AddAuthor" method="post">
-    <div class="form-group mb-3">
-        <label asp-for="Name" class="form-label"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+                        <div class="mb-3">
+                            <label asp-for="Bio" class="form-label fw-bold"></label>
+                            <textarea asp-for="Bio" class="form-control form-control-lg" rows="4" placeholder="Short biography"></textarea>
+                            <span asp-validation-for="Bio" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="DOB" class="form-label fw-bold"></label>
+                            <input asp-for="DOB" type="date" class="form-control form-control-lg" />
+                            <span asp-validation-for="DOB" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-action="Authors" class="btn btn-secondary btn-lg shadow-sm">
+                                <i class="fas fa-arrow-left me-2"></i>Back
+                            </a>
+                            <button type="submit" class="btn btn-success btn-lg shadow-sm">
+                                <i class="fas fa-save me-2"></i>Save Author
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div class="form-group mb-3">
-        <label asp-for="Bio" class="form-label"></label>
-        <textarea asp-for="Bio" class="form-control"></textarea>
-        <span asp-validation-for="Bio" class="text-danger"></span>
-    </div>
-
-    <div class="form-group mb-3">
-        <label asp-for="DOB" class="form-label"></label>
-        <input asp-for="DOB" type="date" class="form-control" />
-        <span asp-validation-for="DOB" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-success">Save</button>
-    <a asp-action="Author" class="btn btn-secondary">Back</a>
-</form>
+</div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 }
+
+<style>
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+    .form-control:focus {
+        box-shadow: 0 0 0 0.25rem rgba(13,110,253,0.25);
+        border-color: #0d6efd;
+    }
+
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #0d6efd, #0b5ed7);
+    }
+
+    .btn:hover {
+        transform: translateY(-1px);
+        transition: transform 0.2s ease;
+    }
+</style>

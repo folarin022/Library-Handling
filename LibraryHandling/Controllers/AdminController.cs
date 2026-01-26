@@ -87,13 +87,14 @@ namespace LibraryHandling.Controllers
         [HttpGet]
         public IActionResult AddAuthor()
         {
-            return View("AddAuthor");
+            return View(new AddAuthorDto { DOB = DateTime.Now.AddYears(-30) });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddAuthor(AddAuthorDto model, CancellationToken cancellationToken)
         {
+            ModelState.Remove("Books");
             if (!ModelState.IsValid)
                 return View(model);
 

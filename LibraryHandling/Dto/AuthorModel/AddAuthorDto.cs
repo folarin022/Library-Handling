@@ -12,3 +12,4 @@ namespace LibraryHandling.Dto.AuthorModel
         public ICollection<Book> Books { get; set; }
     }
 }
+

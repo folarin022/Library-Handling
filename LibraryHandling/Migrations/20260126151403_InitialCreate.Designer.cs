@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryHandling.Migrations
 {
     [DbContext(typeof(LibraryManagementDbContext))]
-    [Migration("20260123120509_MakeGenderNullable")]
-    partial class MakeGenderNullable
+    [Migration("20260126151403_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

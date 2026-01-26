@@ -1,0 +1,29 @@
+﻿@model LibraryHandling.Data.Author
+
+@{
+    ViewData["Title"] = "Delete Author";
+}
+
+<h2>Delete Author</h2>
+
+<div class="alert alert-danger">
+    <strong>Warning:</strong> This action cannot be undone.
+</div>
+
+<dl class="row">
+    <dt class="col-sm-3">Name</dt>
+    <dd class="col-sm-9">@Model.Name</dd>
+
+    <dt class="col-sm-3">Bio</dt>
+    <dd class="col-sm-9">@Model.Bio</dd>
+
+    <dt class="col-sm-3">Date of Birth</dt>
+    <dd class="col-sm-9">@Model.DOB.ToString("yyyy-MM-dd")</dd>
+</dl>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

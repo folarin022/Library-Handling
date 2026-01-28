@@ -85,7 +85,7 @@ namespace LibraryHandling.Service
         public async Task<BaseResponse<bool>> ReturnBook(Guid borrowingId, CancellationToken cancellationToken)
         {
             var response = new BaseResponse<bool>();
-
+            
             try
             {
                 var borrowing = await _dbContext.Borrowings.FirstOrDefaultAsync(b => b.Id == borrowingId, cancellationToken);

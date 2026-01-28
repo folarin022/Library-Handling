@@ -51,10 +51,10 @@ namespace LibraryHandling.Controllers
             }
 
             var result = await _signInManager.PasswordSignInAsync(
-                model.Email,  // pass email as string
+                model.Email,  
                 model.Password,
-                false,    
-                false         // lockoutOnFailure
+                false,
+                false
             );
 
             if (!result.Succeeded)
@@ -63,8 +63,9 @@ namespace LibraryHandling.Controllers
                 return View(model);
             }
 
-            return RedirectToAction("Authors"); // redirect to admin dashboard
+            return RedirectToAction("Authors");
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -81,7 +82,7 @@ namespace LibraryHandling.Controllers
         public async Task<IActionResult> Authors(CancellationToken cancellationToken)
         {
             var result = await _adminService.GetAllAuthors(cancellationToken);
-            return View(result.Data); // Authors.cshtml
+            return View(result.Data); 
         }
 
         [HttpGet]
@@ -149,11 +150,14 @@ namespace LibraryHandling.Controllers
         public async Task<IActionResult> Borrowings(CancellationToken cancellationToken)
         {
             var result = await _adminService.GetAllBorrowings(cancellationToken);
-            return View(result.Data); // Borrowings.cshtml
+            return View(result.Data);
         }
 
         [HttpGet]
-        public IActionResult AddBorrowing() => View();
+        public IActionResult AddBorrowing()
+        {
+            return View (new AddBorrowingDto { Id = Guid.NewGuid() });
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -167,7 +171,7 @@ namespace LibraryHandling.Controllers
                 ModelState.AddModelError("", result.Message);
                 return View(model);
             }
-
+            
             return RedirectToAction("Borrowings");
         }
 

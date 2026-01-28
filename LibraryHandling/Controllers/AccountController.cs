@@ -33,7 +33,7 @@ namespace LibraryHandling.Controllers
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                Gender = model.Gender // Add this line
+                Gender = model.Gender
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -45,7 +45,7 @@ namespace LibraryHandling.Controllers
             }
 
             await _userManager.AddToRoleAsync(user, "Member");
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("MyBorrowings", "Member");
         }
 
         [HttpGet]
@@ -65,7 +65,8 @@ namespace LibraryHandling.Controllers
                 return View(model);
             }
 
-            return RedirectToAction("Index", "Home"); // redirect to member dashboard/home
+            return RedirectToAction("MyBorrowings", "Member"); 
+
         }
 
         [HttpPost]
@@ -73,7 +74,7 @@ namespace LibraryHandling.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Login");
+            return RedirectToAction("Login", "Account");
         }
     }
 }

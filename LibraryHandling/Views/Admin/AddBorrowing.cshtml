@@ -1,5 +1,150 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model LibraryHandling.Dto.BorrowingModel.AddBorrowingDto
+
 @{
+    ViewData["Title"] = "Add New Borrowing";
+    Layout = "_LayoutAdmin";
+}
+
+<div class="row justify-content-center">
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <h5 class="alert-heading">Form Errors:</h5>
+            <ul class="mb-0">
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    <div class="col-md-10 col-lg-8">
+        <div class="card border-0 shadow-sm rounded-3">
+            <div class="card-header bg-info text-white py-3">
+                <div class="d-flex align-items-center">
+                    <a asp-action="Borrowings" class="text-white me-3">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <h4 class="mb-0">Add New Borrowing Record</h4>
+                </div>
+            </div>
+
+            <div class="card-body p-4">
+                <form asp-action="AddBorrowing" method="post">
+                    <!-- Hidden ID Field -->
+                    <input type="hidden" asp-for="Id" />
+
+                    <!-- Member Selection -->
+                    <div class="mb-4">
+                        <label asp-for="UserId" class="form-label fw-semibold">
+                            <i class="bi bi-person-badge text-info me-2"></i>Select Member
+                        </label>
+                        <select asp-for="UserId"
+                                asp-items="@ViewBag.Members"
+                                class="form-select form-select-lg"
+                                required>
+                            <option value="">-- Select a Member --</option>
+                        </select>
+                        <span asp-validation-for="UserId" class="text-danger small"></span>
+                        <small class="form-text text-muted">Choose the library member borrowing the book</small>
+                    </div>
+
+                    <!-- Book Selection -->
+                    <div class="mb-4">
+                        <label asp-for="BookId" class="form-label fw-semibold">
+                            <i class="bi bi-book text-info me-2"></i>Select Book
+                        </label>
+                        <select asp-for="BookId"
+                                asp-items="@ViewBag.Books"
+                                class="form-select form-select-lg"
+                                required>
+                            <option value="">-- Select a Book --</option>
+                        </select>
+                        <span asp-validation-for="BookId" class="text-danger small"></span>
+                        <small class="form-text text-muted">Choose the book being borrowed</small>
+                    </div>
+
+                    <!-- Borrowing Date -->
+                    <div class="mb-4">
+                        <label asp-for="BorrowDate" class="form-label fw-semibold">
+                            <i class="bi bi-calendar-check text-info me-2"></i>Borrowing Date
+                        </label>
+                        <input asp-for="BorrowDate"
+                               type="date"
+                               class="form-control"
+                               value="@DateTime.Now.ToString("yyyy-MM-dd")"
+                               required />
+                        <span asp-validation-for="BorrowDate" class="text-danger small"></span>
+                        <small class="form-text text-muted">Date when the book is borrowed (default: today)</small>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="d-flex justify-content-between mt-4 pt-3 border-top">
+                        <a asp-action="Borrowings" class="btn btn-outline-secondary">
+                            <i class="bi bi-x-circle me-2"></i>Cancel
+                        </a>
+                        <button type="submit" class="btn btn-info text-white px-4">
+                            <i class="bi bi-check-circle me-2"></i>Create Borrowing Record
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set min/max dates
+            const today = new Date().toISOString().split('T')[0];
+            const maxDate = new Date();
+            maxDate.setFullYear(maxDate.getFullYear() + 1);
+            const maxDateString = maxDate.toISOString().split('T')[0];
+
+            const borrowDateInput = document.querySelector('input[name="BorrowDate"]');
+            const dueDateInput = document.querySelector('input[name="DueDate"]');
+
+            borrowDateInput.min = today;
+            borrowDateInput.max = maxDateString;
+
+            dueDateInput.min = today;
+            dueDateInput.max = maxDateString;
+
+            // Auto-calculate due date when borrow date changes (14 days)
+            borrowDateInput.addEventListener('change', function() {
+                const borrowDate = new Date(this.value);
+                const dueDate = new Date(borrowDate);
+                dueDate.setDate(dueDate.getDate() + 14);
+
+                if (dueDateInput.value === '' || new Date(dueDateInput.value) < dueDate) {
+                    dueDateInput.value = dueDate.toISOString().split('T')[0];
+                }
+            });
+
+            // Validate due date is after borrow date
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function(e) {
+                const borrowDate = new Date(borrowDateInput.value);
+                const dueDate = new Date(dueDateInput.value);
+
+                if (dueDate <= borrowDate) {
+                    e.preventDefault();
+                    alert('Due date must be after the borrow date.');
+                    dueDateInput.focus();
+                    return;
+                }
+
+                if (!form.checkValidity()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            });
+
+            // Auto-focus on first field
+            document.querySelector('select[name="MemberId"]').focus();
+        });
+    </script>
 }

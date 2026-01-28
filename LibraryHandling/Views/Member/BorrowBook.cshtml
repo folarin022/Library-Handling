@@ -1,0 +1,114 @@
+﻿@model LibraryHandling.Dto.BookModel.BorrowBookDto
+@{
+    ViewData["Title"] = "Borrow a Book";
+    Layout = "_MemberLayout";
+}
+
+<div class="container mt-4">
+
+    <!-- Page Header -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h3 class="mb-1">
+                <i class="bi bi-book"></i> Borrow a Book
+            </h3>
+            <p class="text-muted mb-0">
+                Select an available book from the list below
+            </p>
+        </div>
+    </div>
+
+    <!-- Messages -->
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <!-- Available Books Table -->
+    <form asp-action="BorrowBook" method="post">
+        @Html.AntiForgeryToken()
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-light fw-bold">
+                <i class="bi bi-journal-bookmark"></i> Available Books
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-striped table-hover mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Select</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>ISBN</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (ViewBag.Books != null && ((IEnumerable<dynamic>)ViewBag.Books).Any())
+                        {
+                            foreach (var book in ViewBag.Books)
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="radio"
+                                               name="BookId"
+                                               value="@book.Id"
+                                               required />
+                                    </td>
+                                    <td>@book.Title</td>
+                                    <td>@book.AuthorName</td>
+                                    <td>@book.ISBN</td>
+                                    <td>
+                                        <span class="badge bg-success">
+                                            Available
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center text-muted">
+                                    No books available for borrowing
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Borrow Date -->
+            <div class="card-body border-top">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label asp-for="BorrowDate" class="form-label fw-bold">
+                            Borrow Date
+                        </label>
+                        <input asp-for="BorrowDate"
+                               type="date"
+                               class="form-control"
+                               value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                        <span asp-validation-for="BorrowDate" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="card-footer d-flex justify-content-between">
+                <a asp-action="MyBorrowings" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Back
+                </a>
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-circle"></i> Borrow Selected Book
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

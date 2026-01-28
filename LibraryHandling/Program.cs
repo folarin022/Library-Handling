@@ -61,8 +61,8 @@ using (var scope = app.Services.CreateScope())
             await roleManager.CreateAsync(new IdentityRole("Member"));
 
         // Create default admin user
-        string adminEmail = "admin@example.com";
-        string adminPassword = "Admin123!";
+        string adminEmail = "olaitanolayinka@gmail.com";
+        string adminPassword = "olaitan001@1";
 
         var adminUser = await userManager.FindByEmailAsync(adminEmail);
         if (adminUser == null)
@@ -71,7 +71,7 @@ using (var scope = app.Services.CreateScope())
             {
                 UserName = adminEmail,
                 Email = adminEmail,
-                EmailConfirmed = true,  // ← ADD THIS
+                EmailConfirmed = true, 
                 FirstName = "System",
                 LastName = "Admin"
             };
